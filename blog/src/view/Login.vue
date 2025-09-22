@@ -27,15 +27,19 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue"
+import md5 from 'js-md5'
+import { getCurrentInstance, reactive, ref } from "vue"
+//从全局注册函数中导入函数
+const { proxy } = getCurrentInstance()
 
 const api = {
-  checkCodeUrl:"api/checkCode"
+  checkCodeUrl:"api/checkCode",
+  login:'login'
 }
 
 const checkCodeUrl = ref(api.checkCodeUrl+"?"+new Date().getTime());
 
-function changeCheckCode(){
+const changeCheckCode = () => {
   checkCodeUrl.value = api.checkCodeUrl + "?" +new Date().getTime()
 }
 
@@ -55,10 +59,20 @@ const rules = {
 }
 
 const login = () => {
-  formDataRef.value.validate((valid) => {
+  formDataRef.value.validate(async (valid) => {
     if(!valid){
       return
     }
+    let result = await proxy.Request({
+      url:api.login,
+      params:{
+        account: formData.account, 
+        password: md5(formData.password), 
+        checkCode: formData.checkCode
+      },errorCallback:()=>{
+        changeCheckCode();
+      }
+    })
   })
 }
 </script>
@@ -95,6 +109,7 @@ const login = () => {
             flex: 1;
             margin-right: 5px;
           }
+          
         }
 
         .el-input__wrapper {
@@ -103,3 +118,4 @@ const login = () => {
     }
 }
 </style>
+<!-- 账号18666666666密码admin123 -->
