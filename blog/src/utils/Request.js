@@ -1,6 +1,7 @@
 //请求相关配置
 import axios from 'axios'
 import { ElMessage,ElLoading } from 'element-plus'
+import router from '@/router'
 import message from './Message'
 //封装的contentType
 const contentTypeForm = "application/x-www-form-urlencoded;charset=UTF-8"
