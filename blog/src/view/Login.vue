@@ -33,7 +33,7 @@ import { getCurrentInstance, reactive, ref } from "vue"
 import { useRouter } from 'vue-router'
 //从全局注册函数中导入函数
 const { proxy } = getCurrentInstance()
-
+const router = useRouter()
 const api = {
   checkCodeUrl:"api/checkCode",
   login:'login'
@@ -103,7 +103,7 @@ const login = () => {
     proxy.message.success("登陆成功")
 
     setTimeout(() => {
-      router.push("/home")
+      router.push("/")
     },1500)
     const loginInfo = {
       account: params.account,

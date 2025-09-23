@@ -8,8 +8,8 @@ const routes = [
     component: () => import('../view/Login.vue')
   },
   {
-    name:'首页',
-    path:'/home',
+    name:'框架页',
+    path:'/',
     component: () => import('../view/Framework.vue')
   }
 ]
