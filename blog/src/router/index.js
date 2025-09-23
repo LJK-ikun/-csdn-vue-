@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import VueCookies from 'vue-cookies'
 
 const routes = [
   {
@@ -6,6 +7,11 @@ const routes = [
     path:'/login',
     component: () => import('../view/Login.vue')
   },
+  {
+    name:'首页',
+    path:'/home',
+    component: () => import('../view/Framework.vue')
+  }
 ]
 
 //创建路由器
@@ -14,4 +20,11 @@ const router = createRouter({
   history: createWebHistory(),
 })
 
+router.beforeEach((to, from) => {
+  const userInfo = VueCookies.get("userInfo");
+  if (!userInfo && to.path !== "/login") {
+    return '/login'; // 直接返回重定向路径
+  }
+  // 无需调用 next()，默认允许导航
+});
 export default router

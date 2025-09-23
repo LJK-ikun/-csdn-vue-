@@ -11,12 +11,12 @@
       </el-form-item>
       <el-form-item label="验证码" prop="checkCode">
       <div class="check-code-panel">
-        <el-input placeholder="请输入验证码" v-model="formData.checkCode" class="input-panel"></el-input>
+        <el-input placeholder="请输入验证码" v-model="formData.checkCode" class="input-panel" @keyup.enter.native="login"></el-input>
         <img :src="checkCodeUrl" class="check-code" @click="changeCheckCode">
       </div>
       </el-form-item>
       <el-form-item>
-        <el-checkbox v-model="formData.rememberMe" :label="true" style="height: 5px;">记住我</el-checkbox>
+        <el-checkbox v-model="formData.rememberMe" :true-label="1" style="height: 5px;">记住我</el-checkbox>
       </el-form-item>
       <el-form-item >
         <el-button type="primary" style="width: 100%" @click="login">登录</el-button>
@@ -27,8 +27,10 @@
 </template>
 
 <script setup>
+import VueCookies from 'vue-cookies'
 import md5 from 'js-md5'
 import { getCurrentInstance, reactive, ref } from "vue"
+import { useRouter } from 'vue-router'
 //从全局注册函数中导入函数
 const { proxy } = getCurrentInstance()
 
@@ -58,21 +60,61 @@ const rules = {
   checkCode: [{ required: true, message: "请输入验证码", trigger: "blur" }]
 }
 
+const init = () => {
+  const loginInfo = VueCookies.get("loginInfo");
+  if (!loginInfo) {
+    return
+  }
+  Object.assign(formData,loginInfo);
+
+}
+init();
+
 const login = () => {
   formDataRef.value.validate(async (valid) => {
     if(!valid){
       return
     }
+
+    let cookieloginInfo = VueCookies.get("loginInfo")
+    let cookiePassword = cookieloginInfo == null ? null : cookieloginInfo.password;
+  
+    if(formData.password !== cookiePassword) {
+      formData.password = md5(formData.password)
+    }
+    
+    let params = {
+      account: formData.account,
+      password: formData.password,
+      checkCode: formData.checkCode
+    }
+
     let result = await proxy.Request({
       url:api.login,
-      params:{
-        account: formData.account, 
-        password: md5(formData.password), 
-        checkCode: formData.checkCode
-      },errorCallback:()=>{
+      params:params,
+      errorCallback:()=>{
         changeCheckCode();
       }
     })
+    if (!result){
+      return
+    }
+
+    proxy.message.success("登陆成功")
+
+    setTimeout(() => {
+      router.push("/home")
+    },1500)
+    const loginInfo = {
+      account: params.account,
+      password: params.password,
+      rememberMe: formData.rememberMe
+    }
+
+    VueCookies.set("userInfo",result.data, 0);
+    if (formData.rememberMe) {
+      VueCookies.set("loginInfo",loginInfo,"7d")
+    }
   })
 }
 </script>
