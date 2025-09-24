@@ -1,5 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import VueCookies from 'vue-cookies'
+const routerObject = {
+  '1-1': '/blog/list',
+  '1-2': '/blog/category',
+  '2-1': '/special/list',
+  '3-1': '/settings/my',
+  '3-2': '/settings/user',
+  '3-3': '/settings/sysInfo',
+  '4-1': '/recovery/list'
+};
 
 const routes = [
   {
@@ -10,7 +19,14 @@ const routes = [
   {
     name:'框架页',
     path:'/',
-    component: () => import('../view/Framework.vue')
+    component: () => import('../view/Framework.vue'),
+    children: [
+      {
+        name:'博客管理',
+        path: routerObject['1-1'],
+        component: () => import('../view/blog/Blog.vue')
+      }
+    ]
   }
 ]
 

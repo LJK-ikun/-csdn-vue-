@@ -28,7 +28,7 @@
               placeholder="请输入验证码"
               v-model="formData.checkCode"
               class="input-panel"
-              @keyup.enter.native="login"
+              @keyup.enter="login"
             ></el-input>
             <img
               :src="checkCodeUrl"

@@ -11,12 +11,17 @@ import router from './router'
 
 import Request from './utils/Request'
 import message from './utils/Message'
+import VueCookies from 'vue-cookies'
 const app = createApp(App)
 app.use(ElementPlus)
 app.use(createPinia())
 app.use(router)
+app.use(VueCookies)
 app.config.globalProperties.Request = Request
 app.config.globalProperties.message = message
+app.config.globalProperties.globalInfo = {
+    imageUrl: "/api/file/getImage/"
+}
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
