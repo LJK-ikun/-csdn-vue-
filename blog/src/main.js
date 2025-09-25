@@ -15,6 +15,8 @@ import VueCookies from 'vue-cookies'
 
 //组件
 import Table from './components/Table.vue'
+import Cover from './components/Cover.vue'
+import Dialog from './components/Dialog.vue'
 
 const app = createApp(App)
 app.use(ElementPlus)
@@ -31,5 +33,6 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 
 app.component('Table', Table)
-
+app.component('Cover', Cover)
+app.component('Dialog', Dialog)
 app.mount('#app')
