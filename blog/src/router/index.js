@@ -20,11 +20,17 @@ const routes = [
     name:'框架页',
     path:'/',
     component: () => import('../view/Framework.vue'),
+    redirect: routerObject['1-1'],
     children: [
       {
         name:'博客管理',
         path: routerObject['1-1'],
         component: () => import('../view/blog/Blog.vue')
+      },
+      {
+        name:'分类管理',
+        path: routerObject['1-2'],
+        component: () => import('../view/blog/BlogCategory.vue')
       }
     ]
   }

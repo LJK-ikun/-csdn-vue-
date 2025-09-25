@@ -12,6 +12,10 @@ import router from './router'
 import Request from './utils/Request'
 import message from './utils/Message'
 import VueCookies from 'vue-cookies'
+
+//组件
+import Table from './components/Table.vue'
+
 const app = createApp(App)
 app.use(ElementPlus)
 app.use(createPinia())
@@ -25,5 +29,7 @@ app.config.globalProperties.globalInfo = {
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
+
+app.component('Table', Table)
 
 app.mount('#app')
