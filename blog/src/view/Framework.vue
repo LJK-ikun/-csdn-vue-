@@ -4,21 +4,23 @@
       <el-header class="header">
         <div class="logo">博客系统管理端</div>
         <div class="user-info">
-          <span>欢迎回来,</span>
-          <el-dropdown trigger="hover">
-            <span class="el-dropdown-link">
-              {{ userInfo.nickName }}
-              <el-icon class="el-icon--right">
-                <arrow-down />
-              </el-icon>
-            </span>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item>个人信息</el-dropdown-item>
-                <el-dropdown-item>退出</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
+          <div class="greeting">
+            <span class="greeting-text">{{ greeting }}</span>
+            <el-dropdown trigger="hover">
+              <span class="el-dropdown-link">
+                {{ userInfo.nickName }}
+                <el-icon class="el-icon--right">
+                  <arrow-down />
+                </el-icon>
+              </span>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item>个人信息</el-dropdown-item>
+                  <el-dropdown-item>退出</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </div>
           <div class="avatar">
             <img :src="userInfo.avatar" alt="头像">
           </div>
@@ -98,7 +100,7 @@ import {
   Setting,
 } from "@element-plus/icons-vue";
 import VueCookies from "vue-cookies";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { getCurrentInstance } from "vue";
 import { useRouter, useRoute } from "vue-router"
 import { watch } from "vue"
@@ -126,6 +128,26 @@ const handleClose = (key, keyPath) => {
 
 //cookie
 const userInfo = ref({});
+
+// 根据时间生成问候语
+const greeting = computed(() => {
+  const hour = new Date().getHours();
+  if (hour < 6) {
+    return "夜深了，";
+  } else if (hour < 9) {
+    return "早上好，";
+  } else if (hour < 12) {
+    return "上午好，";
+  } else if (hour < 14) {
+    return "中午好，";
+  } else if (hour < 18) {
+    return "下午好，";
+  } else if (hour < 22) {
+    return "晚上好，";
+  } else {
+    return "夜深了，";
+  }
+});
 
 const init = () => {
   const cookieUserInfo = VueCookies.get("userInfo");
@@ -157,20 +179,46 @@ watch(route, (newVal) => {
     .user-info {
       display: flex;
       align-items: center;
-      font-size: 16px; /* 明确指定字体大小 */
-      font-family: "Noto Sans SC"; /* 明确指定字体族，若字体名带空格，建议加引号 */
-      .el-dropdown-link {
-        font-size: 16px;
-        font-family: "Noto Sans SC";
+      font-size: 16px;
+      font-family: "Noto Sans SC";
+      
+      .greeting {
+        display: flex;
+        align-items: center;
+        
+        .greeting-text {
+          color: #409EFF;
+          font-weight: 500;
+          margin-right: 5px;
+        }
+        
+        .el-dropdown-link {
+          font-size: 16px;
+          font-weight: bold;
+          color: #303133;
+          cursor: pointer;
+          transition: color 0.3s;
+          
+          &:hover {
+            color: #409EFF;
+          }
+        }
       }
     }
+    
     .avatar {
-      width: 100%;
-      margin-left: 10px;
-      img{
+      width: 40px;
+      height: 40px;
+      margin-left: 15px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      border: 2px solid #fff;
+      
+      img {
         width: 100%;
         height: 100%;
-        border-radius: 25%;
+        object-fit: cover;
       }
     }
     .logo {

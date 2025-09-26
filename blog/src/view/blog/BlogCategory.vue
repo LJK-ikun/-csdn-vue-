@@ -1,14 +1,14 @@
 <template>
   <div>
-    <el-button type="danger" @click="showEdit('add')">新增分类</el-button>
+    <el-button type="danger" @click="showEdit('add')" v-if="userInfo.roleType==1">新增分类</el-button>
     <Table
-      :column="columns"
+      :columns="columns"
       :dataSource="tableData"
       :showPagination="false"
       :fetch="loadDataList"
       :options="tableOptions"
     >
-      <template #cover="{ row }">
+      <template #cover="{row}">
         <Cover :cover="row.cover"></Cover>
       </template>
       <template #op="{index,row}"
@@ -65,8 +65,9 @@
 </template>
 
 <script setup>  
-import { reactive, ref } from "vue";
-import { getCurrentInstance } from "vue";
+import { getCurrentInstance, ref, reactive, nextTick, onMounted } from "vue"
+
+import VueCookies from "vue-cookies";
 
 const { proxy } = getCurrentInstance();
 const api = {
@@ -105,10 +106,15 @@ const columns = [
   },
 ];
 
-const tableData = reactive({});
 const tableOptions = {
   exHeight: 10,
 };
+
+const userInfo = ref(VueCookies.get("userInfo") || {});
+
+const tableData = reactive({
+  list: []
+});
 
 const loadDataList = async () => {
   let result = await proxy.Request({
@@ -120,9 +126,12 @@ const loadDataList = async () => {
   tableData.list = result.data;
 };
 
+onMounted(() => {
+  loadDataList();
+});
 // 新增，修改
 const dialogConfig = reactive({
-  show: true,
+  show: false,
   title: "标题",
   buttons: [{
     type: "danger",
@@ -136,11 +145,13 @@ const formData = ref({})
 const rules = {
   categoryName: [{ required: true, message: "请输入分类名称" }]
 };
-const formDataRef = ref();
+const formDataRef = ref(null);
 const showEdit = (type, data) => {
   dialogConfig.show = true;
   nextTick(() => {
-    formDataRef.value.resetFields();
+    if (formDataRef.value) {
+      formDataRef.value.resetFields();
+    }
     if (type == "add") {
       dialogConfig.title = "新增分类";
       formData.value = {};
@@ -151,7 +162,7 @@ const showEdit = (type, data) => {
   })
 }
 
-const submitForm = async () => {
+const submitForm = () => {
   formDataRef.value.validate(async (valid) => {
     if (!valid) {
       return;

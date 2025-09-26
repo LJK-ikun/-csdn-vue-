@@ -31,17 +31,27 @@ const api = {
 const emit = defineEmits();
 const uploadImage = async (file) => {
   console.log(file);
-  let result = await proxy.Request({
-    url: api.uploadUrl,
-    dataType: "file",
-    params: {
-      file: file.file,
-      type: 0,
-    },
-  });
-  const fileName = result.data.fileName;
-  emit("update:modelValue", fileName);
-  emit("callback", fileName);
+  try {
+    let result = await proxy.Request({
+      url: api.uploadUrl,
+      dataType: "file",
+      params: {
+        file: file.file,
+        type: 0,
+      },
+    });
+    if (result && result.data && result.data.fileName) {
+      const fileName = result.data.fileName;
+      emit("update:modelValue", fileName);
+      emit("callback", fileName);
+    } else {
+      console.error("文件上传失败或返回数据格式不正确:", result);
+      proxy.Message.error("文件上传失败");
+    }
+  } catch (error) {
+    console.error("文件上传请求发生错误:", error);
+    proxy.Message.error("文件上传失败");
+  }
 };
 </script>
 

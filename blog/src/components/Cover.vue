@@ -1,7 +1,7 @@
 <template>
   <div class="cover">
-    <img :src="proxy.globalInfo.imageUrl+row.cover" v-if="cover">
-    <img v-else src="../assets/default_img.png">
+    <img :src="proxy.globalInfo.imageUrl+cover" v-if="cover">
+    <img v-else src="../assets/defualt_img.png">
   </div>
 </template>
 

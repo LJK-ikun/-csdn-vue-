@@ -3,7 +3,7 @@
     <el-dialog
       :showClose="showClose"
       :draggable="true"
-      v-model="show"
+      :model-value="show"
       :close-on-click-modal="false"
       :title="title"
       class="cust-dialog"
