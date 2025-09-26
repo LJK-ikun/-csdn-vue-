@@ -17,8 +17,13 @@
       </div>
       <template v-if="(buttons && buttons.length > 0) || showCancel">
         <div class="dialog-footer">
-          <el-button link @click="close"> 取消 </el-button>
-          <el-button v-for="btn in buttons" :type="btn.type" @click="btn.click">
+          <el-button link @click="close" size="small"> 取消 </el-button>
+          <el-button 
+          v-for="btn in buttons" 
+          :key="btn.text"
+          :type="btn.type" 
+          size="small"
+          @click="btn.click">
             {{ btn.text }}
           </el-button>
         </div>

@@ -27,7 +27,7 @@ const request = (config) => {
         timeout: 10 * 1000,
         headers: {
             'Content-Type': contentType,
-            'X-Requsted-With': 'XMLHttpRequest',
+            'X-Requested-With': 'XMLHttpRequest',
         }
     })
 

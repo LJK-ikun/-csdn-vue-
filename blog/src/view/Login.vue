@@ -129,7 +129,7 @@ const login = () => {
       return;
     }
 
-    proxy.message.success("登陆成功");
+    proxy.Message.success("登陆成功");
 
     setTimeout(() => {
       router.push("/");
