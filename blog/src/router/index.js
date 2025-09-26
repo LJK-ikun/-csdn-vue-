@@ -25,7 +25,7 @@ const routes = [
       {
         name:'博客管理',
         path: routerObject['1-1'],
-        component: () => import('../view/blog/Blog.vue')
+        component: () => import('../view/blog/BlogList.vue')
       },
       {
         name:'分类管理',
