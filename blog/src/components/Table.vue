@@ -55,7 +55,7 @@
                      :total="dataSource.totalCount"
                      :page-sizes="[15, 30, 50, 100]"
                      :page-size="dataSource.pageSize"
-                     :current-page.sync="dataSource.pageNo"
+                     v-model:current-page="dataSource.pageNo"
                      layout="total, sizes, prev, pager, next, jumper"
                      @size-change="handlePageSizeChange"
                      @current-change="handlePageNoChange"
@@ -68,7 +68,10 @@ import { ref } from "vue";
 
 const emit = defineEmits(["rowSelected", "rowClick"]);
 const props = defineProps({
-  dataSource: Object,
+  dataSource: {
+    Object,
+    default: () => ({ list: [], pageNo: 1, pageSize: 15, totalCount: 0 })
+  },
   showPagination: {
     type: Boolean,
     default: true,
