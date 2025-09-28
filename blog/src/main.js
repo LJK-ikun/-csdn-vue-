@@ -13,6 +13,7 @@ import router from './router'
 import Request from './utils/Request'
 import Message from './utils/Message'
 import VueCookies from 'vue-cookies'
+import Confirm from '@/utils/Confirm'
 
 //组件
 import Table from './components/Table.vue'
@@ -33,6 +34,7 @@ app.use(router)
 app.use(VueCookies)
 app.config.globalProperties.Request = Request
 app.config.globalProperties.Message = Message
+app.config.globalProperties.Confirm = Confirm;
 app.config.globalProperties.globalInfo = {
     imageUrl: "/api/file/getImage/"
 }
