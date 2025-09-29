@@ -127,7 +127,9 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
+import { reactive, ref, nextTick, onMounted, onUnmounted, getCurrentInstance } from "vue";
+
+const { proxy } = getCurrentInstance();
 
 const editorMarkdownHeight = window.innerHeight - 220;
 const editorHtmlHeight = window.innerHeight - 320;

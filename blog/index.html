@@ -7,7 +7,51 @@
     <title>Vite App</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <!-- 初始加载动画 -->
+      <div id="initial-loader" style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #f5f5f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      ">
+        <div style="text-align: center;">
+          <div style="
+            width: 40px;
+            height: 40px;
+            border: 3px solid #e4e7ed;
+            border-top: 3px solid #409eff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+          "></div>
+          <div style="color: #606266; font-size: 14px;">加载中...</div>
+        </div>
+      </div>
+      <style>
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        /* 防止内容闪烁 */
+        .app-content {
+          opacity: 0;
+          transition: opacity 0.3s ease-in-out;
+        }
+
+        .app-content.loaded {
+          opacity: 1;
+        }
+      </style>
+    </div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

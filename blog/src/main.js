@@ -23,6 +23,7 @@ import CoverUpload from './components/CoverUpload.vue'
 import Windows from './components/Windows.vue'
 import EditorHtml from './components/EditorHtml.vue'
 import EditorMarkdown from './components/EditorMarkdown.vue'
+import BlogDetail from './view/blog/BlogDetail.vue'
 
 
 const app = createApp(App)
@@ -50,5 +51,6 @@ app.component('CoverUpload', CoverUpload)
 app.component('Windows', Windows)
 app.component('EditorHtml', EditorHtml)
 app.component('EditorMarkdown', EditorMarkdown)
+app.component('BlogDetail', BlogDetail)
 
 app.mount('#app')

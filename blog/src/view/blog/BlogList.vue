@@ -1,12 +1,14 @@
 <template>
   <div class="top-panel">
-    <el-form :model="searchFormData" label-width="80px">
+    <el-form :model="searchFormData" label-width="50px">
       <el-row :span="5">
-        <el-form-item label="名称" prop="categoryName">
+        <el-form-item label="标题" prop="titleFuzzy">
           <el-input
-            placeholder="请输入名称"
-            v-model="searchFormData.categoryName"
-          >
+                placeholder="请输入名称"
+                v-model="searchFormData.titleFuzzy"
+                clearable
+                @keyup.enter.native="loadDataList"
+              >
           </el-input>
         </el-form-item>
       <el-col :span="4">
@@ -113,10 +115,14 @@
         </div>
       </template>
     </Table>
+    <!-- 新增修改弹窗 -->
+    <BlogEdit ref="blogEditRef" @callback="loadDataList"></BlogEdit>
+    <BlogDetail ref="blogDetailRef"></BlogDetail>
 </template>
 
 <script setup>
 import { reactive, ref, getCurrentInstance } from "vue";
+import BlogEdit from "./BlogEdit.vue"
 import VueCookies from "vue-cookies";
 
 const api = {
@@ -217,6 +223,12 @@ const loadCategoryList = async () => {
     categoryList.value = result.data || [];
 }
 loadCategoryList();
+
+//详情
+const blogDetailRef = ref(null);
+const showDetail = (blogId) => {
+  blogDetailRef.value.showDetail(blogId);
+}
 
 </script>
 

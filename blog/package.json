@@ -18,6 +18,7 @@
     "@wangeditor/editor-for-vue": "^5.1.12",
     "axios": "^1.12.2",
     "element-plus": "^2.11.3",
+    "highlight.js": "^11.11.1",
     "js-md5": "^0.8.3",
     "pinia": "^3.0.3",
     "sass": "^1.93.0",
